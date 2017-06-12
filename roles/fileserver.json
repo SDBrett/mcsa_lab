@@ -1,5 +1,5 @@
 {
-"name": "fileserver1",
+"name": "fileserver",
 "description": "File Server installation for MCSA Lab",
 "json_class": "Chef::Role",
 "default_attributes": {

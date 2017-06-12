@@ -22,3 +22,6 @@ Copy mcsa_lab to cookbooks directoy
 Upload cookbook to Chef server
 
 Use SetupChefEnvironment.sh to configure the roles on Chef server
+
+
+Much of the Terraform structure has been shamelessly stolen from Scott Lowes 2017 Interop ITX Container Demo. https://github.com/lowescott/2017-itx-container-workshop
