@@ -1,0 +1,35 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  # always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+transport:
+  name: winrm
+  elevated: true
+  username: Administrator
+  password: Pass@word1
+
+platforms:
+  - name: windows-2012R2
+
+suites:
+  - name: default
+    run_list:
+      - recipe[mcsa_lab::default]
+      #- recipe[mcsa_lab::dsc_configuration]
+      #- recipe[mcsa_lab::dc_DSCConfiguration]
+      #- recipe[mcsa_lab::dc_DomainBuild]
+      #- recipe[mcsa_lab::dc_ADConfiguration]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:

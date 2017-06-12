@@ -1,0 +1,16 @@
+{
+"name": "domaincontroller1",
+"description": "Domain Controller installation for MCSA Lab",
+"json_class": "Chef::Role",
+"default_attributes": {
+},
+"override_attributes": {
+},
+"chef_type": "role",
+"run_list": ["recipe[chef-client]",
+            "recipe[mcsa_lab::dc_DSCConfiguration]",
+            "recipe[mcsa_lab::dc_DomainBuild]"
+],
+"env_run_lists": {
+}
+}
