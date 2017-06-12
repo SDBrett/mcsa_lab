@@ -6,6 +6,8 @@ Code
     Clean up code within Chef and Terraform
     Implement better practices where possible
     Include Chef-client settings in default recipe
+    Terraform to add tags 'mcsa_lab' to all nodes in Chef
+        This is to be used for Chef server cleanup
 
 Issues to resolve:
     Using attribute for the domain name in dc_DomainBuild causes a NIL value error
