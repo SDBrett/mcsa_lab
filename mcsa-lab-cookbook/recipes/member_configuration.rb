@@ -2,7 +2,7 @@
 # Cookbook:: mcsa_lab
 # Recipe:: mcsa_DomainJoin
 #
-# Copyright:: 2017, Brett Johnson, All Rights Reserved.
+# Copyright:: 2017, The Authors, All Rights Reserved.
 
 ipaddr = search(:node, 'name:pdc-0')
 dnsserver = ipaddr[0]['ipaddress']
@@ -22,6 +22,13 @@ template 'C:/windows/system32/drivers/etc/hosts' do
   source 'hosts.erb'
 end
 
+reboot 'Restart Computer' do
+  action :nothing
+end
+
+
+#Could change to use test of resolve-dnsname, should remove the need
+#for a specific delay timer.
 
 powershell_script 'joindomain' do
   code <<-EOH
@@ -38,4 +45,6 @@ powershell_script 'joindomain' do
     Add-Computer -DomainName $domain -Credential $credential -ErrorAction SilentlyContinue
     }
     EOH
+  returns 1
+  notifies :reboot_now, 'reboot[Restart Computer]', :immediately
 end
