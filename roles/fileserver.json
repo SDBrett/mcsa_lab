@@ -1,16 +1,21 @@
 {
-"name": "fileserver",
-"description": "File Server installation for MCSA Lab",
-"json_class": "Chef::Role",
-"default_attributes": {
-},
-"override_attributes": {
-},
-"chef_type": "role",
-"run_list": ["recipe[chef-client]",
-            "recipe[mcsa_lab::member_configuration]",
-            "recipe[mcsa_lab::fs_InstallRole]"
-],
-"env_run_lists": {
-}
+  "name": "fileserver",
+  "description": "File Server installation for MCSA Lab",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[chef-client]",
+    "recipe[mcsa_lab]",
+    "recipe[mcsa_lab::member_configuration]",
+    "recipe[mcsa_lab::fs_InstallRole]"
+  ],
+  "env_run_lists": {
+
+  }
 }

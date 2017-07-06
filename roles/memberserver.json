@@ -1,6 +1,6 @@
 {
-  "name": "domaincontroller",
-  "description": "Domain Controller installation for MCSA Lab",
+  "name": "memberserver",
+  "description": "Role for the creation and management of a generic memberserver",
   "json_class": "Chef::Role",
   "default_attributes": {
 
@@ -12,8 +12,7 @@
   "run_list": [
     "recipe[chef-client]",
     "recipe[mcsa_lab]",
-    "recipe[mcsa_lab::dc_DSCConfiguration]",
-    "recipe[mcsa_lab::dc_DomainBuild]"
+    "recipe[mcsa_lab::member_configuration]"
   ],
   "env_run_lists": {
 
