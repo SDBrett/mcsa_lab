@@ -2,7 +2,7 @@
 # Cookbook:: mcsa_lab
 # Recipe:: dsc_configuration
 #
-#  Copyright:: 2017, Brett Johnson, All Rights Reserved.
+# Copyright:: 2017, The Authors, All Rights Reserved.
 
 
 # Configure default local configuration manager settings to enable DSC to run

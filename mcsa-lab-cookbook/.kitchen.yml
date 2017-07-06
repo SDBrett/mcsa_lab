@@ -16,16 +16,17 @@ transport:
   name: winrm
   elevated: true
   username: Administrator
-  password: Pass@word1
+  password: vagrant
 
 platforms:
-  - name: windows-2012R2
-
+  - name: Windows-2016
+    driver:
+      box: mwrock/Windows2016
 suites:
   - name: default
     run_list:
       - recipe[mcsa_lab::default]
-      #- recipe[mcsa_lab::dsc_configuration]
+      #- recipe[mcsa_lab::member_configuration]
       #- recipe[mcsa_lab::dc_DSCConfiguration]
       #- recipe[mcsa_lab::dc_DomainBuild]
       #- recipe[mcsa_lab::dc_ADConfiguration]

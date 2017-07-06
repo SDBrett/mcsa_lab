@@ -2,10 +2,21 @@
 # Cookbook:: mcsa_lab
 # Recipe:: mcsa_DomainJoin
 #
-# Copyright:: 2017, The Authors, All Rights Reserved.
+# Copyright:: 2017, Brett Johnson
 
 ipaddr = search(:node, 'name:pdc-0')
 dnsserver = ipaddr[0]['ipaddress']
+
+
+windows_task "joindomain" do
+  task_name "#{node['memberserver']['domain_join_task_name']}"
+  user 'Administrator'
+  password "#{node['user']['password']}"
+  command 'powershell.exe -file c:/chefscripts/domainjoin.ps1'
+  run_level :highest
+  frequency :minute
+  frequency_modifier 5
+end
 
 powershell_script 'set_dns' do
   code <<-EOH
@@ -13,38 +24,15 @@ powershell_script 'set_dns' do
   EOH
 end
 
-# May no longer be needed with the 10 min delay before joining the domain. Further testing required
+directory 'C:/chefscripts' do
+  action :create
+end
 
-template 'C:/windows/system32/drivers/etc/hosts' do
+template 'C:/chefscripts/domainjoin.ps1' do
   variables(
-  dcip: dnsserver
+  domainname:     "#{node['ad']['domain_name']}",
+  taskname:       "#{node['memberserver']['domain_join_task_name']}",
+  adminpassword:  "#{node['user']['password']}"
   )
-  source 'hosts.erb'
-end
-
-reboot 'Restart Computer' do
-  action :nothing
-end
-
-
-#Could change to use test of resolve-dnsname, should remove the need
-#for a specific delay timer.
-
-powershell_script 'joindomain' do
-  code <<-EOH
-
-  if (!((gwmi win32_computersystem).partofdomain -eq $true)) {
-    $domain = "test.lab"
-    $password = "ChefDemo,1" | ConvertTo-SecureString -asPlainText -Force
-    $username = "Administrator@test.lab"
-    $credential = New-Object System.Management.Automation.PSCredential($username,$password)
-
-    Write-Host -ForegroundColor yellow "10 minute wait for DNS to resolve domain"
-    Start-Sleep -s 600
-
-    Add-Computer -DomainName $domain -Credential $credential -ErrorAction SilentlyContinue
-    }
-    EOH
-  returns 1
-  notifies :reboot_now, 'reboot[Restart Computer]', :immediately
+  source 'domainjoin.ps1.erb'
 end

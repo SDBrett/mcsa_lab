@@ -15,6 +15,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-# If the OS is server 2012 R2 or 2012 download and install WMF5, otherwise DSC will not work
-# This is not needed in 2016 as WMF5 is the default

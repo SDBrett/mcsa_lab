@@ -2,7 +2,7 @@
 # Cookbook:: mcsa_lab
 # Recipe:: dc_DSCConfiguration
 #
-# Copyright:: 2017, Brett Johnson, All Rights Reserved.
+# Copyright:: 2017, Brett Johnson
 
 
 powershell_script 'configure_dc_lcm' do

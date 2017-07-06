@@ -1,0 +1,60 @@
+<#
+  Script to test if the server is able to resolve the dns name of the primary
+  domain controller. If this is possible, it will attempt to join the domian.
+
+  To be run as a scheduled task
+
+#>
+
+
+function Test-Resolve{
+
+  param(
+    [string]$DomainName
+  )
+
+  try{
+    Resolve-DNSName -Name $DomainName -ErrorAction stop
+    $success = $true
+  }
+  catch{
+    $success = $false
+  }
+  return $success
+}
+
+function Join-Domain{
+
+  param(
+    [string]$DomainName,
+    [string]$TaskName,
+    [System.Management.Automation.CredentialAttribute()] $Credential
+  )
+
+  try{
+
+    if ((gwmi win32_computersystem).partofdomain -eq $false){
+    Add-Computer -DomainName $DomainName -Credential $credential -Confirm:$false -Restart
+    }
+    Else{
+    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+    }
+  }
+  catch{}
+}
+
+
+$domain = "<%= @domainname =%>"
+
+$password = "<%= @adminpassword =%>" | ConvertTo-SecureString -asPlainText -Force
+
+$username = "Administrator@$domain"
+$credential = New-Object System.Management.Automation.PSCredential($username,$password)
+$TaskName = "<%= @taskname =%>"
+
+
+$canresolve = Test-Resolve -DomainName $domain
+
+if ($canresolve -eq $True){
+    Join-Domain -DomainName $domain -Credential $credential -TaskName $TaskName
+}

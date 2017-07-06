@@ -2,33 +2,29 @@
 # Cookbook:: mcsa_lab
 # Recipe:: dc_DomainBuild
 #
-# Copyright:: 2017, The Authors, All Rights Reserved.
- 
+# Copyright:: 2017, Brett Johnson
+
 dsc_resource "InstallAD" do
   resource :WindowsFeature
   property :Ensure, 'Present'
   property :Name, 'AD-Domain-Services'
 end
- 
+
 dsc_resource "InstallRSAT" do
   resource :WindowsFeature
   property :Ensure, 'Present'
   property :Name, 'RSAT-ADDS'
 end
- 
-## TODO DomainName property is giving error when using vairable from default.rb
-##      Error is null value, so for work around, this has been hardset
- 
+
+reboot 'Restart Computer' do
+  action :nothing
+end
+
 dsc_resource "BuildDomain" do
   resource :xADDomain
-  property :DomainName, "test.lab"
+  property :DomainName, "#{node['ad']['domain_name']}"
   property :DomainAdministratorCredential, ps_credential("#{node['user']['password']}")
   property :SafemodeAdministratorPassword, ps_credential("#{node['user']['password']}")
   property :DependsOn, ['WindowsFeature]InstallAD']
-end
- 
-reboot 'DCBuid' do
-  delay_mins 5
-  action :request_reboot
-  reason 'post AD install'
+  notifies :request_reboot, 'reboot[Restart Computer]', :immediately
 end
