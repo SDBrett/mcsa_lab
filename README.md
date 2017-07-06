@@ -13,9 +13,9 @@ Prereqs
     
     AWS account: Credentials file is defaulted to ~/.aws/credentials can be changed through edit of Terraform and Chef scripts
 
-    
-
     Chef Server: Local or hosted, either will work
+    
+    Git: You don't need a Github account, but you will require git to clone the files and for uploading the cookbook to your own Chef server.
 
 
 Setup
@@ -80,6 +80,11 @@ Chef Server:
     After entering the organization details, you will be presented with two options, "Download Starter Kit" and "Learn Chef".
     Click "Download Starter Kit", you will receive a warning that this will reset your user key, that's ok because you haven't used it yet.
     A Zip file called "Chef-Starter.zip" will download and extract the folder called chef-repo. This folder contains all the files, including your key file for interacting with Chef server.
+    
+Git:
+    Download the git installer for your OS from: https://git-scm.com/downloads and run through the installation. On Windows you will want to select the option to add git to PATH, this will make life a lot easier.
+
+
 
     
     
