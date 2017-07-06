@@ -5,14 +5,12 @@ Documentation
 Code
     Clean up code within Chef and Terraform
     Implement better practices where possible
-    Include Chef-client settings in default recipe
-    Terraform to add tags 'mcsa_lab' to all nodes in Chef
-        This is to be used for Chef server cleanup
+    *   Revisited domain joining to make more reliable
+    
+    Creation of JSON files for the setup of roles in Chef server
 
 Issues to resolve:
-    Using attribute for the domain name in dc_DomainBuild causes a NIL value error
-        Attribute string does not appear to be passing through undefined method `[]' for nil:NilClass
-        This error was in relation to missing attribute, solved
+    There's probably many, but things seems to be working ok for now
 
 Practices to improve on
     Move passwords to data bag which can be called from Terraform and Chef
