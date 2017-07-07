@@ -82,9 +82,30 @@ Chef Server:
     A Zip file called "Chef-Starter.zip" will download and extract the folder called chef-repo. This folder contains all the files, including your key file for interacting with Chef server.
     
 Git:
+
     Download the git installer for your OS from: https://git-scm.com/downloads and run through the installation. On Windows you will want to select the option to add git to PATH, this will make life a lot easier.
 
+Setup steps:
 
+    Extract the files from "Chef-Starter.zip", you will be placing additional files into the chef-repo directory from this zip file.
+
+    Clone the git respository to your local computer using the command git clone https://github.com/SDBrett/mcsa_lab
+    
+    From within the new directory which was created from 'git clone' copy the following:
+    * mcsa-lab-cookbook -> chef-repo/cookbooks
+    * roles -> chef-repo
+    * SetupChefEnvironment -> chef-repo
+    * terraform_mcsa -> chef-repo (optional, just keeps everything together)
+    
+Test connection to Chef server:
+
+    Fire up a terminal and navigate to the chef-repo directory and run the following command:
+    
+    knife ssl check
+    
+    This will verify that your able to connect to the Chef server.
+
+    
 
     
     
