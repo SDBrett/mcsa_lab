@@ -115,5 +115,45 @@ Upload cookbook to Chef server
 
 Use SetupChefEnvironment.sh to configure the roles on Chef server
 
+Configuration files:
+
+    terraform_mcsa:
+        userdata.txt:
+        userdata.txt is a template file used to provide configuration data to the new EC2 instances at the time of creation. This file enables the Administrator password to be configured instead of using the random one set by AWS. In addtion, it opens the required firewall ports on Windows firewall allowing WINRM and RDP access.
+
+        vars.tf:
+        vars.tf sets a number of variables for the terraform environment. If you would like to change the password for the administrator account, open this file add look for the code block
+
+        `variable "administrator_pw" {
+            type                     = "string"
+            description              = "Password for the local administrator account"
+            default                  = "P@ssword1234"
+        }`
+
+        Change "P@ssword1234" to your desired password.
+
+        If you want to change the AWS region, update the value assigned to 'default' in the code block for user_region.
+
+        `variable "user_region" {
+            type                    = "string"
+            description             = "AWS region to use by default"
+            default                 = "ap-southeast-2"
+        }`
+
+        data.tf:
+        This file is used to set the AWS AMI, it may occasionaly need updating as MS releases new versions of the server 2016 AMI. To do this, find the server 2016 AMI on the market place and update the name of the instance specified in the file.
+
+        `filter {
+            name                = "name"
+            values              = ["Windows_Server-2016-English-Full-Base-2017.07.13"]
+        }
+
+        At the time of writing the AMI details can be found at 
+
+        labconfig.tf:
+
+        If you want to change the number of EC2 intsances or the sizes, you're in the right place. Each variable code block represents a type of server. Updating the value for 'type' will change the instance size and updating 'number' will define the how many instances to deploy.
+
+
 
 Much of the Terraform structure has been shamelessly stolen from Scott Lowes 2017 Interop ITX Container Demo. https://github.com/lowescott/2017-itx-container-workshop

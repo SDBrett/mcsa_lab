@@ -2,6 +2,8 @@ Documentation
     Better explain end to end setup, target people who have never used Chef before
     Comments within scripts
 
+    Improve descriptions of files used for deployment, Responding to Issue #1
+
 Code
     Clean up code within Chef and Terraform
     Implement better practices where possible
@@ -13,6 +15,8 @@ Issues to resolve:
     There's probably many, but things seems to be working ok for now
     
     There is an issue with hostnames not updating when creating multiple servers of the same time. This appears to be a bug in Terraform with the templates not interating per run. https://github.com/terraform-providers/terraform-provider-template/issues/12
+
+    Issue has been resolved with updating template variables in terraform
 
 Practices to improve on
     Move passwords to data bag which can be called from Terraform and Chef
