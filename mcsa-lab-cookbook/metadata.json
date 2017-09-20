@@ -1,0 +1,39 @@
+{
+  "name": "mcsa_lab",
+  "description": "Installs/Configures mcsa_lab",
+  "long_description": "Installs/Configures mcsa_lab",
+  "maintainer": "Brett Johnson",
+  "maintainer_email": "brett@sdbrett.com",
+  "license": "Apache-2.0",
+  "platforms": {
+
+  },
+  "dependencies": {
+    "ad-join": "~> 4.12",
+    "chef-client": ">= 0.0.0"
+  },
+  "providing": {
+
+  },
+  "attributes": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.3.0",
+  "source_url": "",
+  "issues_url": "",
+  "privacy": false,
+  "chef_versions": [
+    [
+      ">= 12.1"
+    ]
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}

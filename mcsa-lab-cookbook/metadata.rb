@@ -4,7 +4,7 @@ maintainer_email 'brett@sdbrett.com'
 license 'Apache-2.0'
 description 'Installs/Configures mcsa_lab'
 long_description 'Installs/Configures mcsa_lab'
-version '0.3.0'
+version '0.3.1'
 chef_version '>= 12.1' if respond_to?(:chef_version)
 
 # The `issues_url` points to the location where issues for this cookbook are
@@ -19,4 +19,5 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 #
 # source_url 'https://github.com/<insert_org_here>/mcsa_lab'
 
+depends 'ad-join', '~> 4.12'
 depends 'chef-client'

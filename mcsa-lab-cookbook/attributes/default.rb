@@ -5,7 +5,6 @@ default['user']['password'] = 'ChefDemo,1'
 
 
 default['memberserver']['domain_join_task_name'] = 'JoinDomain'
-#default ['chef-client']['interval'] = 180
 
-default['chef_client']['interval']    = '180'
-default['chef_client']['splay']       = '30'
+#default['chef_client']['interval']    = '1800'
+#default['chef_client']['splay']       = '300'

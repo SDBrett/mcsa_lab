@@ -22,9 +22,9 @@ end
 
 dsc_resource "BuildDomain" do
   resource :xADDomain
-  property :DomainName, "#{node['ad']['domain_name']}"
-  property :DomainAdministratorCredential, ps_credential("#{node['user']['password']}")
-  property :SafemodeAdministratorPassword, ps_credential("#{node['user']['password']}")
+  property :DomainName, node['ad']['domain_name']
+  property :DomainAdministratorCredential, ps_credential(node['user']['password'])
+  property :SafemodeAdministratorPassword, ps_credential(node['user']['password'])
   property :DependsOn, ['WindowsFeature]InstallAD']
   notifies :request_reboot, 'reboot[Restart Computer]', :immediately
 end
