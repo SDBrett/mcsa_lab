@@ -35,25 +35,39 @@ variable "user_region" {
 
 
 data "template_file" "domain_controller" {
-  template = "${file("userdata.txt")}"
+  template                  = "${file("userdata.txt")}"
+  count                     = "${var.domain_controller["number"]}"
+
   vars {
-    admin_password="${var.administrator_pw}"
-    hostname = "${var.domain_controller.["hostname_prefix"]}-${count.index}"
+    hostname_increment      = "${count.index}"
+    admin_password          = "${var.administrator_pw}"
+    hostname                = "${var.domain_controller.["hostname_prefix"]}-"
+    hostname_increment      = "${count.index}"
   }
 }
+
+/*
+
+TO BE TESTED
 
 data "template_file" "replica_domain_controller" {
-  template = "${file("userdata.txt")}"
+  template                  = "${file("userdata.txt")}"
+
   vars {
-    admin_password="${var.administrator_pw}"
-    hostname = "${var.replica_domain_controller.["hostname_prefix"]}-${count.index}"
+
+    admin_password          = "${var.administrator_pw}"
+    hostname                = "${var.replica_domain_controller.["hostname_prefix"]}-${count.index}"
   }
 }
+*/
 
 data "template_file" "file_server" {
-  template = "${file("userdata.txt")}"
+  template                  = "${file("userdata.txt")}"
+  count                     = "${var.file_server["number"]}"
+
   vars {
-    admin_password="${var.administrator_pw}"
-    hostname = "${var.file_server.["hostname_prefix"]}-${count.index}"
+    admin_password          = "${var.administrator_pw}"
+    hostname                = "${var.file_server.["hostname_prefix"]}-"
+    hostname_increment      = "${count.index}"
   }
 }

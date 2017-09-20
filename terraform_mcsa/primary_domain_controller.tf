@@ -1,11 +1,12 @@
 resource "aws_instance" "domain_controller" {
-#${var.amis["us-east-1"]}
+
   instance_type   = "${var.domain_controller["type"]}"
-  count           = 1
+  count           = "${var.domain_controller["number"]}"
   ami             = "${data.aws_ami.server2016_ami.id}"
   key_name        = "${var.awskeypair.["key_pair_name"]}"
   vpc_security_group_ids = ["${aws_security_group.windows_lab.id}"]
   subnet_id       = "${aws_subnet.windows_lab_public.id}"
+  user_data       = "${element(data.template_file.domain_controller.*.rendered, count.index)}"
 
   provisioner "chef" {
   server_url      = "${var.chef_provision.["server_url"]}"
@@ -32,14 +33,7 @@ resource "aws_instance" "domain_controller" {
   }
 
   tags {
-    name = "${var.domain_controller.["hostname_prefix"]}-${count.index}"
+    Name = "${var.domain_controller.["hostname_prefix"]}-${count.index}"
     role = "domain_controller"
   }
-
-  user_data = "${data.template_file.domain_controller.rendered}"
-}
-
-# Show the public IP address at the end
-output "address1" {
-  value = "${aws_instance.domain_controller.private_ip}"
 }

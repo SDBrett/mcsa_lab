@@ -3,7 +3,7 @@ data "aws_ami" "server2016_ami" {
     owners                  = ["801119661308"]
     filter {
         name                = "name"
-        values              = ["Windows_Server-2016-English-Full-Base-2017.04.12"]
+        values              = ["Windows_Server-2016-English-Full-Base-2017.07.13"]
     }
     filter {
         name                = "virtualization-type"

@@ -1,8 +1,16 @@
+/*
+
+TO BE TESTED
+
+# Set an admin password for the configuration
+
+
+
 # Create a new EC2 instance with Chef as provisioner
 resource "aws_instance" "replica_domain_controller" {
-
+#${var.amis["us-east-1"]}
   instance_type   = "${var.replica_domain_controller["type"]}"
-  count           = "${var.replica_domain_controller.["count"]}"
+  count           = "${var.replica_domain_controller.["number"]}"
   ami             = "${data.aws_ami.server2016_ami.id}"
   key_name        = "${var.awskeypair.["key_pair_name"]}"
   vpc_security_group_ids = ["${aws_security_group.windows_lab.id}"]
@@ -36,3 +44,5 @@ resource "aws_instance" "replica_domain_controller" {
 output "address" {
   value = "${aws_instance.replica_domain_controller.public_ip}"
 }
+
+*/

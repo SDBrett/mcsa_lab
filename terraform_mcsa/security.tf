@@ -1,4 +1,4 @@
-# Create a security group to allow  and web traffic
+# Create a security group to allow Swarm and web traffic
 resource "aws_security_group" "windows_lab" {
     vpc_id                  = "${aws_vpc.windows_lab_vpc.id}"
     name                    = "windows_lab_sg"
