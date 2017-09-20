@@ -11,6 +11,8 @@ Code
 
 Issues to resolve:
     There's probably many, but things seems to be working ok for now
+    
+    There is an issue with hostnames not updating when creating multiple servers of the same time. This appears to be a bug in Terraform with the templates not interating per run. https://github.com/terraform-providers/terraform-provider-template/issues/12
 
 Practices to improve on
     Move passwords to data bag which can be called from Terraform and Chef
