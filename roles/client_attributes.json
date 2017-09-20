@@ -1,0 +1,9 @@
+{
+  "name": "client_attributes",
+  "default_attributes": {
+    "chef_client": {
+      "interval": 300,
+      "splay": 60
+    }
+  }
+}
