@@ -1,3 +1,5 @@
+# MCSA Lab
+
 This project is very much in an alpha start, working through bugs and building out. 
 Documentation needs to be built out as well as the actual functionality.
 
@@ -5,154 +7,157 @@ The purpose of the project is to enable people to create a Windows AD domain on 
 
 The design is not to have on going configuration management, this is primarly for Day 0 stand up.
 
-Prereqs
+### Prereqs
 
-    Chef DK installed on local system
+- Chef DK installed on local system
     
-    Terraform on local system, prefered if PATH updated to include Terraform
+- Terraform on local system, prefered if PATH updated to include Terraform
     
-    AWS account: Credentials file is defaulted to ~/.aws/credentials can be changed through edit of Terraform and Chef scripts
+- AWS account: Credentials file is defaulted to ~/.aws/credentials can be changed through edit of Terraform and Chef scripts
 
-    Chef Server: Local or hosted, either will work
+ - Chef Server: Local or hosted, either will work
     
-    Git: You don't need a Github account, but you will require git to clone the files and for uploading the cookbook to your own Chef server.
+ - Git: You don't need a Github account, but you will require git to clone the files and for uploading the cookbook to your own Chef server.
 
 
-Setup
+### Setup
 
 The setup section covers the steps for setting up the prerequisites for this project. The steps will use the hosted version of Chef server as it's free and requires very little effort.
 
-Chef Development Kit:
+### Chef Development Kit:
 
-    The Chef DK is the software package which contains everything you need to use Chef. It's a local installation on your computer so you will need to install this on any computer you wish to use to interact with Chef.
+The Chef DK is the software package which contains everything you need to use Chef. It's a local installation on your computer so you will need to install this on any computer you wish to use to interact with Chef.
     
-    Navigate to: https://downloads.chef.io/chefdk/stable and download the package for your OS and Install.
+Navigate to: https://downloads.chef.io/chefdk/stable and download the package for your OS and Install.
     
-Terraform:
+### Terraform:
 
-    The Terraform file is a standalone executable which can be downloaded from: https://www.terraform.io/downloads.html. Download the file and place on your system. This is not an installer, so you will need to add it to the PATH environmental variable.
+The Terraform file is a standalone executable which can be downloaded from: https://www.terraform.io/downloads.html. Download the file and place on your system. This is not an installer, so you will need to add it to the PATH environmental variable.
     
-    For example on a Windows machine, you might create a directory C:\Terraform and place the file in there, or OSX or Linux you might place in ~/Terraform.
+For example on a Windows machine, you might create a directory C:\Terraform and place the file in there, or OSX or Linux you might place in ~/Terraform.
     
-    Details on an entry to the PATH variable can be found with the links below.
-    Windows: https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows
-    Linux / OSX: https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux
+Details on an entry to the PATH variable can be found with the links below.
+- Windows: https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows
+- Linux / OSX: https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux
 
-    Once all is done you can try running the command 'terraform' from cmd / terminal.
+Once all is done you can try running the command 'terraform' from cmd / terminal.
     
-AWS Account:
+### AWS Account:
 
-    Head across to: https://aws.amazon.com/ and sign up for an AWS account. You will need to provide billing details, while there is a 12 month free tier, the EC2 instances used in this project are not eligable.
+Head across to: https://aws.amazon.com/ and sign up for an AWS account. You will need to provide billing details, while there is a 12 month free tier, the EC2 instances used in this project are not eligable.
     
-    A couple of notes: If you decide to setup MFA (Multifactor Auth), ensure that you keep you contact number up to date. If you change phones and phone numbers, you will need to sign an affidavit to get back in. This includes your amazon shopping account.
-    The project can be done with the account created to setup the AWS account (the root account), but it's a really bad practice to do so. Therefore, some additional steps are included for setting up another account.
+A couple of notes: If you decide to setup MFA (Multifactor Auth), ensure that you keep you contact number up to date. If you change phones and phone numbers, you will need to sign an affidavit to get back in. This includes your amazon shopping account.
+
+The project can be done with the account created to setup the AWS account (the root account), but it's a really bad practice to do so. Therefore, some additional steps are included for setting up another account.
     
-    New Account:
-        At the top, go to 'Services' and IAM
-        Click on "Add User", enter a username and select 'programmatic access'
-        For access policy, select EC2 Full Access
-        You will then be able to download a CSV file with the Access key and Secret, these are you keys to access AWS. AWS will never display the secret again.
-        Download the CSV file and create a directory C:\<user>\.aws or for Linux / OSX ~/.aws
+##### New Account
+- At the top, go to 'Services' and IAM
+- Click on "Add User", enter a username and select 'programmatic access'
+- For access policy, select EC2 Full Access
+- You will then be able to download a CSV file with the Access key and Secret, these are you keys to access AWS. AWS will never display the secret again.
+- Download the CSV file and create a directory C:\<user>\.aws or for Linux / OSX ~/.aws
         
-        The project contains a template AWS credential file, which will be used to pass the access key and secret to Terraform for the creation of EC2 instances.
-        This is in the directory AWS cred file, copy that to the .aws directory you created and past in the access key and secret from the CSV that you downloaded before. 
-        
-        As this is the default directory you do not need to specify these details in the Terraform configuration files. If you already work with AWS and use multiple credentials, review the following link: https://www.terraform.io/docs/providers/aws/index.html
-        
-        Key Pair:
-        A Key Pair is used for Terraform to verify when the instance is available. This is not something that can be setup as part of the workflow and must be done prior.
-        
-        At the top of the AWS console, go to 'Services' and 'EC2'. On the left under "Network and Security" click on 'Key Pairs'
-        On the Key Pairs page, select 'Create Key Pair' and enter a name for the key pair.
-        
-        A file called <KeyPairName>.pem will download. Place that somewhere on you computer. You cannot download that file again, only delete and recreate the Key Pair in AWS.
-        
-        That's all we need to do in AWS, but we will circle back to the Key Pair when it's time to confiure the Terraform files.
+The project contains a template AWS credential file, which will be used to pass the access key and secret to Terraform for the creation of EC2 instances.
 
-Chef Server:
+This is in the directory AWS cred file, copy that to the .aws directory you created and past in the access key and secret from the CSV that you downloaded before. 
+        
+As this is the default directory you do not need to specify these details in the Terraform configuration files. If you already work with AWS and use multiple credentials, review the following link: https://www.terraform.io/docs/providers/aws/index.html
+        
+##### Key Pair:
+A Key Pair is used for Terraform to verify when the instance is available. This is not something that can be setup as part of the workflow and must be done prior.
+        
+- At the top of the AWS console, go to 'Services' and 'EC2'. On the left under "Network and Security" click on 'Key Pairs'
+- On the Key Pairs page, select 'Create Key Pair' and enter a name for the key pair.
+        
+- A file called <KeyPairName>.pem will download. Place that somewhere on you computer. You cannot download that file again, only delete and recreate the Key Pair in AWS.
+        
+- That's all we need to do in AWS, but we will circle back to the Key Pair when it's time to confiure the Terraform files.
 
-    The full steps to setting up Chef server are available here: https://learn.chef.io/modules/manage-a-node-chef-server/windows/hosted/set-up-your-chef-server#/
+### Chef Server:
+
+The full steps to setting up Chef server are available here: https://learn.chef.io/modules/manage-a-node-chef-server/windows/hosted/set-up-your-chef-server#/
     
-    In your browser of choice, navigate to: https://api.chef.io/signup and fill out the sign up form.
-    After you have signed up and verified your email account, you can login through https://api.chef.io
-    When logging in for the first time, you will be asked to setup an organization. The short name you provide needs to be unique as it will form the connection URL. https://api.chef.io/organizations/<org>
+- In your browser of choice, navigate to: https://api.chef.io/signup and fill out the sign up form.
+- After you have signed up and verified your email account, you can login through https://api.chef.io
+- When logging in for the first time, you will be asked to setup an organization. The short name you provide needs to be unique as it will form the connection URL. https://api.chef.io/organizations/<org>
     
-    After entering the organization details, you will be presented with two options, "Download Starter Kit" and "Learn Chef".
-    Click "Download Starter Kit", you will receive a warning that this will reset your user key, that's ok because you haven't used it yet.
-    A Zip file called "Chef-Starter.zip" will download and extract the folder called chef-repo. This folder contains all the files, including your key file for interacting with Chef server.
+- After entering the organization details, you will be presented with two options, "Download Starter Kit" and "Learn Chef".
+- Click "Download Starter Kit", you will receive a warning that this will reset your user key, that's ok because you haven't used it yet.
+- A Zip file called "Chef-Starter.zip" will download and extract the folder called chef-repo. This folder contains all the files, including your key file for interacting with Chef server.
     
-Git:
+### Git:
 
-    Download the git installer for your OS from: https://git-scm.com/downloads and run through the installation. On Windows you will want to select the option to add git to PATH, this will make life a lot easier.
+- Download the git installer for your OS from: https://git-scm.com/downloads and run through the installation. On Windows you will want to select the option to add git to PATH, this will make life a lot easier.
 
-Setup steps:
+### Setup steps:
 
-    Extract the files from "Chef-Starter.zip", you will be placing additional files into the chef-repo directory from this zip file.
+- Extract the files from "Chef-Starter.zip", you will be placing additional files into the chef-repo directory from this zip file.
 
-    Clone the git respository to your local computer using the command git clone https://github.com/SDBrett/mcsa_lab
+- Clone the git respository to your local computer using the command git clone https://github.com/SDBrett/mcsa_lab
     
-    From within the new directory which was created from 'git clone' copy the following:
+- From within the new directory which was created from 'git clone' copy the following:
     * mcsa-lab-cookbook -> chef-repo/cookbooks
     * roles -> chef-repo
     * SetupChefEnvironment -> chef-repo
     * terraform_mcsa -> chef-repo (optional, just keeps everything together)
     
-Test connection to Chef server:
+##### Test connection to Chef server:
 
-    Fire up a terminal and navigate to the chef-repo directory and run the following command:
-    
-    knife ssl check
-    
-    This will verify that your able to connect to the Chef server.
+Fire up a terminal and navigate to the chef-repo directory and run the following command:
 
-    
+```
+knife ssl check
+```
 
-    
-    
+This will verify that your able to connect to the Chef server.
 
-Copy mcsa_lab to cookbooks directoy
-Upload cookbook to Chef server
+- Copy mcsa_lab to cookbooks directoy
+- Upload cookbook to Chef server
 
-Use SetupChefEnvironment.sh to configure the roles on Chef server
+Use ```SetupChefEnvironment.sh``` to configure the roles on Chef server
 
-Configuration files:
+### Configuration files:
 
-    terraform_mcsa:
-        userdata.txt:
-        userdata.txt is a template file used to provide configuration data to the new EC2 instances at the time of creation. This file enables the Administrator password to be configured instead of using the random one set by AWS. In addtion, it opens the required firewall ports on Windows firewall allowing WINRM and RDP access.
+##### terraform_mcsa:
+###### userdata.txt:
+userdata.txt is a template file used to provide configuration data to the new EC2 instances at the time of creation. This file enables the Administrator password to be configured instead of using the random one set by AWS. In addtion, it opens the required firewall ports on Windows firewall allowing WINRM and RDP access.
 
-        vars.tf:
-        vars.tf sets a number of variables for the terraform environment. If you would like to change the password for the administrator account, open this file add look for the code block
+###### vars.tf
+vars.tf sets a number of variables for the terraform environment. If you would like to change the password for the administrator account, open this file add look for the code block
+```json
+variable "administrator_pw" {
+    type                     = "string"
+    description              = "Password for the local administrator account"
+    default                  = "P@ssword1234"
+}
+```
 
-        `variable "administrator_pw" {
-            type                     = "string"
-            description              = "Password for the local administrator account"
-            default                  = "P@ssword1234"
-        }`
+Change _P@ssword1234_ to your desired password.
 
-        Change "P@ssword1234" to your desired password.
+If you want to change the AWS region, update the value assigned to _default_ in the code block for user_region.
+```json
+variable "user_region" {
+    type                    = "string"
+    description             = "AWS region to use by default"
+    default                 = "ap-southeast-2"
+}
+```
 
-        If you want to change the AWS region, update the value assigned to 'default' in the code block for user_region.
+###### data.tf:
+This file is used to set the AWS AMI, it may occasionaly need updating as MS releases new versions of the server 2016 AMI. To do this, find the server 2016 AMI on the market place and update the name of the instance specified in the file.
 
-        `variable "user_region" {
-            type                    = "string"
-            description             = "AWS region to use by default"
-            default                 = "ap-southeast-2"
-        }`
+```json
+filter {
+    name                = "name"
+    values              = ["Windows_Server-2016-English-Full-Base-2017.07.13"]
+}
+```
 
-        data.tf:
-        This file is used to set the AWS AMI, it may occasionaly need updating as MS releases new versions of the server 2016 AMI. To do this, find the server 2016 AMI on the market place and update the name of the instance specified in the file.
+        At the time of writing the AMI details can be found at https://aws.amazon.com/marketplace/pp/B01M7SJEU7
 
-        `filter {
-            name                = "name"
-            values              = ["Windows_Server-2016-English-Full-Base-2017.07.13"]
-        }
+###### labconfig.tf:
 
-        At the time of writing the AMI details can be found at 
-
-        labconfig.tf:
-
-        If you want to change the number of EC2 intsances or the sizes, you're in the right place. Each variable code block represents a type of server. Updating the value for 'type' will change the instance size and updating 'number' will define the how many instances to deploy.
+If you want to change the number of EC2 intsances or the sizes, you're in the right place. Each variable code block represents a type of server. Updating the value for 'type' will change the instance size and updating 'number' will define the how many instances to deploy.
 
 
 
